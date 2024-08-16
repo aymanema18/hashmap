@@ -17,6 +17,7 @@ function hashMap() {
         if (index < 0 || index >= buckets.length) {
             throw new Error('Trying to access index out of bound');
         }
+
         let temp = buckets[index];
 
         while (true) {
@@ -35,6 +36,15 @@ function hashMap() {
                 break;
             }
             temp = temp.nextNode;
+        }
+        let calc = buckets.length * loadFactor;
+        if (length() > calc) {
+            let arrays = entries();
+            buckets = new Array(buckets.length * 2);
+            console.log(buckets.length);
+            for (let arr of arrays) {
+                set(arr[0], arr[1]);
+            }
         }
     }
 
@@ -177,35 +187,5 @@ function hashMap() {
         keys,
         values,
         entries,
-        buckets,
     };
 }
-
-let test = hashMap();
-test.set('Karim', 'this is the first value for Karim');
-test.set('Imad', 'this is the first value for Imad');
-test.set('Ayman', 'this is the first value for Ayman');
-test.set('Messi', 'this is the first value for Messi');
-test.set('Ronaldo', 'this is the first value for Ronaldo');
-
-test.set('karim', 'this is the second value for karim');
-test.set('kamir', 'this is the second value for kamir');
-
-console.log(test.buckets);
-console.log(`length is ${test.length()}`);
-
-console.log(test.remove('karim'));
-
-console.log(test.buckets);
-console.log(`length is ${test.length()}`);
-test.set('karim', 'this is the second value for karim');
-console.log(`length is ${test.length()}`);
-test.set('RajaCasablanca', 'this is the second value for RajaCasablanca');
-console.log(`length is ${test.length()}`);
-console.log(test.keys());
-console.log(test.values());
-console.log(test.entries());
-
-test.clear();
-console.log(`length is ${test.length()}`);
-console.log(test.keys());
