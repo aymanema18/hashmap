@@ -33,15 +33,39 @@ function hashMap() {
             }
             if (temp.key === key) {
                 temp.value = value;
+                break;
             }
             temp = temp.nextNode;
         }
     }
 
-    return { set, buckets };
+    function get(key) {
+        let index = hash(key);
+        let temp = buckets[index];
+        while (true) {
+            if (!temp) {
+                return null;
+            }
+            if (temp.key === key) {
+                return temp.value;
+            }
+            temp = temp.nextNode;
+        }
+    }
+
+    return { set, get, buckets };
 }
 
 let test = hashMap();
-test.set('kmair', 'this is the value for kmair');
+test.set('Karim', 'this is the first value for Karim');
+test.set('Imad', 'this is the first value for Imad');
+test.set('Ayman', 'this is the first value for Ayman');
+test.set('Messi', 'this is the first value for Messi');
+test.set('Ronaldo', 'this is the first value for Ronaldo');
+
+test.set('karim', 'this is the second value for karim');
+test.set('kamir', 'this is the second value for kamir');
 
 console.log(test.buckets);
+
+console.log(test.get('Ayman'));
