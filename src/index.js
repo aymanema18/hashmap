@@ -149,7 +149,36 @@ function hashMap() {
         return arr;
     }
 
-    return { set, get, has, remove, length, clear, keys, values, buckets };
+    function entries() {
+        let arr = [];
+        let temp;
+        for (let bucket of buckets) {
+            temp = bucket;
+            while (true) {
+                if (!temp) {
+                    break;
+                }
+                if (temp.key) {
+                    arr.push([temp.key, temp.value]);
+                }
+                temp = temp.nextNode;
+            }
+        }
+        return arr;
+    }
+
+    return {
+        set,
+        get,
+        has,
+        remove,
+        length,
+        clear,
+        keys,
+        values,
+        entries,
+        buckets,
+    };
 }
 
 let test = hashMap();
@@ -175,6 +204,7 @@ test.set('RajaCasablanca', 'this is the second value for RajaCasablanca');
 console.log(`length is ${test.length()}`);
 console.log(test.keys());
 console.log(test.values());
+console.log(test.entries());
 
 test.clear();
 console.log(`length is ${test.length()}`);
