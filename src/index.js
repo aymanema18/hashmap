@@ -107,7 +107,49 @@ function hashMap() {
         return count;
     }
 
-    return { set, get, has, remove, length, buckets };
+    function clear() {
+        for (let i = 0; i < buckets.length; i++) {
+            buckets[i] = undefined;
+        }
+    }
+
+    function keys() {
+        let arr = [];
+        let temp;
+        for (let bucket of buckets) {
+            temp = bucket;
+            while (true) {
+                if (!temp) {
+                    break;
+                }
+                if (temp.key) {
+                    arr.push(temp.key);
+                }
+                temp = temp.nextNode;
+            }
+        }
+        return arr;
+    }
+
+    function values() {
+        let arr = [];
+        let temp;
+        for (let bucket of buckets) {
+            temp = bucket;
+            while (true) {
+                if (!temp) {
+                    break;
+                }
+                if (temp.key) {
+                    arr.push(temp.value);
+                }
+                temp = temp.nextNode;
+            }
+        }
+        return arr;
+    }
+
+    return { set, get, has, remove, length, clear, keys, values, buckets };
 }
 
 let test = hashMap();
@@ -131,3 +173,9 @@ test.set('karim', 'this is the second value for karim');
 console.log(`length is ${test.length()}`);
 test.set('RajaCasablanca', 'this is the second value for RajaCasablanca');
 console.log(`length is ${test.length()}`);
+console.log(test.keys());
+console.log(test.values());
+
+test.clear();
+console.log(`length is ${test.length()}`);
+console.log(test.keys());
