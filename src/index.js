@@ -53,7 +53,22 @@ function hashMap() {
         }
     }
 
-    return { set, get, buckets };
+    function has(key) {
+        let index = hash(key);
+        let temp = buckets[index];
+
+        while (true) {
+            if (!temp) {
+                return false;
+            }
+            if (temp.key === key) {
+                return true;
+            }
+            temp = temp.nextNode;
+        }
+    }
+
+    return { set, get, has, buckets };
 }
 
 let test = hashMap();
@@ -69,3 +84,5 @@ test.set('kamir', 'this is the second value for kamir');
 console.log(test.buckets);
 
 console.log(test.get('Ayman'));
+
+console.log(test.has('ronaldo'));
