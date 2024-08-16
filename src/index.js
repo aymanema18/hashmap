@@ -14,7 +14,6 @@ function hashMap() {
     }
     function set(key, value) {
         let index = hash(key);
-        console.log(index);
         if (index < 0 || index >= buckets.length) {
             throw new Error('Trying to access index out of bound');
         }
@@ -68,7 +67,29 @@ function hashMap() {
         }
     }
 
-    return { set, get, has, buckets };
+    function remove(key) {
+        let index = hash(key);
+        let temp = buckets[index];
+        let prv = temp;
+
+        while (true) {
+            if (!temp) {
+                return false;
+            }
+            if (temp.key === key && temp === buckets[index]) {
+                buckets[index] = buckets[index].nextNode;
+                return true;
+            }
+            if (temp.key === key) {
+                prv.nextNode = temp.nextNode;
+                return true;
+            }
+            prv = temp;
+            temp = temp.nextNode;
+        }
+    }
+
+    return { set, get, has, remove, buckets };
 }
 
 let test = hashMap();
@@ -83,6 +104,6 @@ test.set('kamir', 'this is the second value for kamir');
 
 console.log(test.buckets);
 
-console.log(test.get('Ayman'));
+console.log(test.remove('Neymar'));
 
-console.log(test.has('ronaldo'));
+console.log(test.buckets);
